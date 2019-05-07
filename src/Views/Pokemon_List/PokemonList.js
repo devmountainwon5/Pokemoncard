@@ -28,6 +28,10 @@ class PokemonList extends Component {
             })
     }
 
+    showDetails = (id) => {
+        this.props.history.push(`/Pokedex/${id}`)
+    }
+
     release = (id) => {
         this.setState({
             pokemon: this
@@ -37,11 +41,12 @@ class PokemonList extends Component {
         })
     }
     render() {
+        console.log(this.props)
         const pokemonCards = this
             .state
             .pokemon
             .map((e) => {
-                return <PokemonCard key={e.id} release={this.release} pokemon={e}/>
+                return <PokemonCard key={e.id} showDetails={this.showDetails} release={this.release} pokemon={e}/>
             })
 
         return (

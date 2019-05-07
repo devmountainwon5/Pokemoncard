@@ -1,0 +1,38 @@
+.pokemon-card {
+    min-width: 350px;
+    width: 30%;
+    height: 500px;
+    background: #316AB2;
+    border: solid 10px;
+    border-radius: 4px;
+    margin: 10px;
+    color: #FFCB06;
+    text-align: center;
+}
+
+button{
+    border:none;
+    color: #316AB2;
+    background: #FFCB06;
+    padding: 4px;
+    font-size: 20px;
+    width: 100px;
+    margin-top:20px;
+    border-radius: 4px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.image {
+    height: 300px;
+    width: 300px;
+    background: white;
+    background-size: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: auto;
+    border: 4px solid #FFCB06;
+    border-radius: 4px;
+}
