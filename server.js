@@ -1,22 +1,57 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const bodyParser = require('body-parser');
+const massive = require('massive');
 require('dotenv').config();
 
 const app = express();
 
-/// Serving static files.
-app.use(express.static(path.join(__dirname, '/build')));
+app.use(cors());
+app.use(bodyParser.json());
 
-/// Catch all for routing
-app.get('/*', (req, res) => {
-    res.sendFile('index.html', {
-        root: path.join(__dirname, "/build")
+massive(process.env.CONNECTION_STRING)
+    .then((dbInstance)=>{
+        console.log(`db is connected`)
+        app.set('db', dbInstance)
     })
-});
+    .catch((err)=>{
+        console.log(`Yo bro yo. Your database be whack ${err}`)
+    })
 
-const port = process.env.PORT || 8043;
-app.listen(port, () => {
-    console.log(`Running on port ${port}`)
+app.get('/api/users', (req, res, next) => {
+    const db = req.app.get('db');
+    db.GET_USERS()
+        .then((users)=>{
+            res.send(users)
+        })
+})
+
+app.get('/api/user', (req, res, next) => {
+    const db = req.app.get('db');
+    db.user_table.findOne({id:req.query.id})
+        .then((users)=>{
+            res.send(users)
+        })
+})
+
+app.post('/api/user', (req, res, next) => {
+    const db = req.app.get('db');
+    const {email, first_name, last_name, user_name, password} = req.body;
+    db.user_table.insert({
+        email, 
+        first_name, 
+        last_name, 
+        user_name, 
+        password
+    })
+    .then((user)=>{
+        res.send(user)
+    })
+})
+
+
+const port = process.env.PORT || 8040;
+
+app.listen(port, ()=>{
+    console.log(`Humming on port ${port}`)
 })
